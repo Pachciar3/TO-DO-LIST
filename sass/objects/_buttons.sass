@@ -1,0 +1,26 @@
+.o-btn 
+  text-align: center
+  // padding: 10px 5px
+  cursor: pointer
+  font-family: Lato
+  &--text
+    color: $white
+    background-color: $gray
+    font-size: 2rem
+    transition: .2s linear
+    font-weight: bold
+    &.is-active
+      background-color: $black
+  &--yellow
+    background-color: yellow
+    transition: .2s linear
+  &--red
+    background-color: $red
+    color: $white
+    &:hover span
+      animation-name: pulse
+      animation-duration: 1s
+      animation-iteration-count: infinite
+  &--lightBlack
+    color: $white
+    background-color: $lightBlack

@@ -21,5 +21,3 @@ class Categories {
     }
   }
 }
-
-// const kategorie = new Categories([{id:0, name:"Szkoła"},{id:2, name:"Praca"}],3);

@@ -35,30 +35,3 @@ class Tasks {
     }
   }
 }
-
-// const zadania = new Tasks([{
-//   id: 0,
-//   name: "dupa",
-//   category: 3,
-//   complete: false
-// }, {
-//   id: 1,
-//   name: "dupaf",
-//   category: 2,
-//   complete: false
-// }, {
-//   id: 2,
-//   name: "dweraf",
-//   category: 2,
-//   complete: false
-// }, {
-//   id: 3,
-//   name: "dweraf",
-//   category: 0,
-//   complete: false
-// }, {
-//   id: 5,
-//   name: "dwesdfaf",
-//   category: 1,
-//   complete: false
-// }], 6);

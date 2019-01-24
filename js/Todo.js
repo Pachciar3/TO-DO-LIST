@@ -35,10 +35,7 @@ class Todo {
       }, {
         id: 1,
         name: 'Work'
-      }, {
-        id: 2,
-        name: 'School'
-      }], 3);
+      }], 2);
     }
     this.renderNodeLists();
     this.addTaskForm.addEventListener('submit', e => {
@@ -101,10 +98,11 @@ class Todo {
     }
   }
   addTask(tasksConatiner, task) {
+    const category = this.categories.searchById(task.category)
     const div = document.createElement('div');
     div.className = task.complete ? "c-task is-active" : "c-task";
     div.dataset.key = task.id
-    div.innerHTML = `<button class="c-task__btn o-btn o-btn--red" data-type="remove" data-key=${task.id}><span class="fas fa-trash"></span></button><div class="c-task__name">${task.name}</div><button class="c-task__btn o-btn o-btn--lightBlack" data-type="complete" data-key=${task.id}><span class="fas fa-check"></span></button>`;
+    div.innerHTML = `<button class="c-task__btn o-btn o-btn--red" data-type="remove" data-key=${task.id}><span class="fas fa-trash"></span></button><div class="c-task__name" title="${task.name}">${task.name}<span class="c-task__cat-name" title="${category}">${category}</span></div><button class="c-task__btn o-btn o-btn--lightBlack" data-type="complete" data-key=${task.id}><span class="fas fa-check"></span></button>`;
     tasksConatiner.appendChild(div);
     div.querySelector('button[data-type=remove]').addEventListener('click', this.deleteTask.bind(this, tasksConatiner));
     div.querySelector('button[data-type=complete]').addEventListener('click', this.completeTask.bind(this, tasksConatiner));
@@ -143,6 +141,9 @@ class Todo {
         el.classList.remove('is-active');
       });
       e.target.classList.add('is-active');
+    })
+    div.addEventListener('dblclick', (e) => {
+      e.target.classList.remove('is-active');
     })
     div.querySelector('button.c-choose-ct__close-button').addEventListener('click', this.deleteCategory.bind(this, container));
   }

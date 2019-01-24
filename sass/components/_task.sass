@@ -15,15 +15,30 @@
       font-size: 2.5rem
     &__btn
       font-size: 3rem
+
   &__input,  &__name
     flex-grow: 1
     font-size: 2rem
   &__name
+    display: flex
     background-color: $gray
     padding: 10px
     transition: .2s linear
+    hyphens: auto
+    justify-content: space-between
+    align-items: center
+  &__cat-name
+    display: inline 
+    width: 100px
+    padding: 2px 5px
+    font-size: 1.8rem
+    background-color: $darkBlue
+    overflow: hidden
+    white-space: nowrap
+    text-overflow: ellipsis
+    color: $white
   &__btn
-    width: 50px
+    min-width: 50px
     font-size: 2.2rem
     transition: .2s linear
   &.is-active &__name, &.is-active .o-btn--lightBlack, .o-btn--lightBlack:hover
@@ -34,4 +49,7 @@
     background-color: $lightBlack
     color: $white
   &.is-active .o-btn--lightBlack
-    margin-left: 2px
+    border-left: 2px solid $black
+@media (min-width: 1024px)
+  .c-task__cat-name
+    width: 130px

@@ -3,7 +3,7 @@ const menuContents = document.querySelectorAll('.l-actions__content[data-type="m
 const menuContents2 = document.querySelectorAll('.l-results[data-type="menu-contents"]');
 const apk = new Todo();
 apk.start();
-const elementsRemoveClass = (elements, className,i) => {
+const elementsToggleClass = (elements, className,i) => {
   elements.forEach(el => {
     el.classList.remove(className);
   });
@@ -11,9 +11,9 @@ const elementsRemoveClass = (elements, className,i) => {
 }
 for (let i = 0; i < menuButtons.length; i++) {
   menuButtons[i].addEventListener('click', () => {
-    elementsRemoveClass(menuButtons, 'is-active',i);
-    elementsRemoveClass(menuContents, 'is-active',i);
-    elementsRemoveClass(menuContents2, 'is-active',i);
+    elementsToggleClass(menuButtons, 'is-active',i);
+    elementsToggleClass(menuContents, 'is-active',i);
+    elementsToggleClass(menuContents2, 'is-active',i);
     apk.renderNodeLists();
   })
 }

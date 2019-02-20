@@ -1,9 +1,8 @@
 class Searching{
-  static searchByPartName(arrayTab,name){
+  static searchByPartName(arrayTab,value){
     const searchedTasks = [];
-    name.toLowerCase();
     for(let i=0; i<arrayTab.length; i++){
-      if(arrayTab[i].name.toLowerCase().includes(name)){
+      if(arrayTab[i].name.toLowerCase().includes(value.toLowerCase())){
         searchedTasks.push(arrayTab[i]);
       }
     }

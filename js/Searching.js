@@ -1,17 +1,17 @@
 class Searching{
-  static searchByPartName(arrayTab,value){
+  static searchByPartValue(arrayTab,property,value){
     const searchedTasks = [];
     for(let i=0; i<arrayTab.length; i++){
-      if(arrayTab[i].name.toLowerCase().includes(value.toLowerCase())){
+      if(arrayTab[i][property].toLowerCase().includes(value.toLowerCase())){
         searchedTasks.push(arrayTab[i]);
       }
     }
     return searchedTasks
   }
-  static searchByCategory(arrayTab,value){
+  static searchByFullValue(arrayTab,property,value){
     const searchedTasks = [];
     for(let i=0; i<arrayTab.length; i++){
-      if(arrayTab[i].category===value){
+      if(arrayTab[i][property]===value){
         searchedTasks.push(arrayTab[i]);
       }
     }

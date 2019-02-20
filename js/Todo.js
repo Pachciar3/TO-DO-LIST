@@ -98,19 +98,19 @@ class Todo {
     }
   }
   addTask(tasksConatiner, task) {
-    const category = this.categories.searchById(task.category)
+    const category = Searching.searchByFullValue(this.categories.categories, 'id', task.category)
     const div = document.createElement('div');
     div.className = task.complete ? "c-task is-active" : "c-task";
     div.dataset.key = task.id
-    div.innerHTML = `<button class="c-task__btn o-btn o-btn--red" data-type="remove" data-key=${task.id}><span class="fas fa-trash"></span></button><div class="c-task__name" title="${task.name}">${task.name}<span class="c-task__cat-name" title="${category}">${category}</span></div><button class="c-task__btn o-btn o-btn--lightBlack" data-type="complete" data-key=${task.id}><span class="fas fa-check"></span></button>`;
+    div.innerHTML = `<button class="c-task__btn o-btn o-btn--red" data-type="remove" data-key=${task.id}><span class="fas fa-trash"></span></button><div class="c-task__name" title="${task.name}">${task.name}<span class="c-task__cat-name" title="${category[0].name}">${category[0].name}</span></div><button class="c-task__btn o-btn o-btn--lightBlack" data-type="complete" data-key=${task.id}><span class="fas fa-check"></span></button>`;
     tasksConatiner.appendChild(div);
     div.querySelector('button[data-type=remove]').addEventListener('click', this.deleteTask.bind(this, tasksConatiner));
     div.querySelector('button[data-type=complete]').addEventListener('click', this.completeTask.bind(this, tasksConatiner));
   }
   searchTask(name, category, conatiner) {
-    let tempArray = Searching.searchByPartName(this.tasks.tasks, name);
+    let tempArray = Searching.searchByPartValue(this.tasks.tasks,'name',name);
     if (category !== "all") {
-      tempArray = Searching.searchByCategory(tempArray, category);
+      tempArray = Searching.searchByFullValue(tempArray, 'category', category);
     }
     for (let i = 0; i < tempArray.length; i++) {
       this.addTask(conatiner, tempArray[i]);
@@ -149,13 +149,12 @@ class Todo {
   }
   deleteCategory(container, e) {
     const id = e.target.dataset.key ? e.target.dataset.key : e.target.parentNode.dataset.key;
-    if (!Searching.searchByCategory(this.tasks.tasks, Number(id)).length > 0) {
+    if (!Searching.searchByFullValue(this.tasks.tasks, 'category', Number(id)).length > 0) {
       this.categories.deleteCategory(id);
       localStorage.setItem('categoriesArray', JSON.stringify(this.categories.categories));
       localStorage.setItem('categoriesID', this.categories.id);
       container.removeChild(container.querySelector(`.c-choose-ct__category[data-key="${id}"]`))
-      console.log("usuwanie kategorii nr: ", id)
-    }else{
+    } else {
       alert('Uwaga są jeszcze zadania w tej kategorii');
     }
   }

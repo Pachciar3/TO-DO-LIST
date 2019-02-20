@@ -8,11 +8,11 @@ class AddToDOM{
     this.tasksID=tasks.id;
   }
   addTask(tasksConatiner, task) {
-    const category = Searching.searchByFullValue(this.categoriesARRAY, 'id', task.category);
+    const category = Searching.searchOneByFullValue(this.categoriesARRAY, 'id', task.category);
     const div = document.createElement('div');
     div.className = task.complete ? "c-task is-active" : "c-task";
     div.dataset.key = task.id
-    div.innerHTML = `<button class="c-task__btn o-btn o-btn--red" data-type="remove" data-key=${task.id}><span class="fas fa-trash"></span></button><div class="c-task__name" title="${task.name}">${task.name}<span class="c-task__cat-name" title="${category[0].name}">${category[0].name}</span></div><button class="c-task__btn o-btn o-btn--lightBlack" data-type="complete" data-key=${task.id}><span class="fas fa-check"></span></button>`;
+    div.innerHTML = `<button class="c-task__btn o-btn o-btn--red" data-type="remove" data-key=${task.id}><span class="fas fa-trash"></span></button><div class="c-task__name" title="${task.name}">${task.name}<span class="c-task__cat-name" title="${category.name}">${category.name}</span></div><button class="c-task__btn o-btn o-btn--lightBlack" data-type="complete" data-key=${task.id}><span class="fas fa-check"></span></button>`;
     tasksConatiner.appendChild(div);
     div.querySelector('button[data-type=remove]').addEventListener('click', this.deleteTask.bind(this, tasksConatiner));
     div.querySelector('button[data-type=complete]').addEventListener('click', this.completeTask.bind(this, tasksConatiner));

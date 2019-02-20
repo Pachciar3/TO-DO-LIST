@@ -17,4 +17,11 @@ class Searching{
     }
     return searchedTasks
   }
+  static searchOneByFullValue(arrayTab,property,value){
+    for(let i=0; i<arrayTab.length; i++){
+      if(arrayTab[i][property]===value){
+        return arrayTab[i]
+      }
+    }
+  }
 }

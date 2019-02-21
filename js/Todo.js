@@ -2,6 +2,7 @@ class Todo {
   constructor() {
     this.categories = null;
     this.tasks = null;
+    this.addToDOM = null;
     this.addTaskForm = document.querySelector('*[data-type="add-task"]');
     this.searchTaskForm = document.querySelector('*[data-type="search-task"]');
     this.addCategoryForm = document.querySelector('*[data-type="add-category"]');
@@ -37,6 +38,7 @@ class Todo {
         name: 'Work'
       }], 2);
     }
+    this.addToDOM = new AddToDOM(this.categories,this.tasks);
     this.renderNodeLists();
     this.addTaskForm.addEventListener('submit', e => {
       e.preventDefault();
@@ -48,7 +50,7 @@ class Todo {
           const task = this.tasks.newTask(value, categoryKey);
           localStorage.setItem('tasksArray', JSON.stringify(this.tasks.tasks));
           localStorage.setItem('tasksID', this.tasks.id);
-          this.addTask(this.tasksConatiner, task);
+          this.addToDOM.addTask(this.tasksConatiner, task);
           e.target[0].value = "";
         } else {
           alert('Wybierz kategorię');
@@ -68,7 +70,7 @@ class Todo {
       } else {
         categoryKey = "all"
       }
-      this.searchTask(value, categoryKey, this.tasksConatinerSearch);
+      this.addToDOM.searchTask(value, categoryKey, this.tasksConatinerSearch);
     });
     this.addCategoryForm.addEventListener('submit', e => {
       e.preventDefault();
@@ -77,7 +79,7 @@ class Todo {
         const ct = this.categories.newCategory(value);
         localStorage.setItem('categoriesArray', JSON.stringify(this.categories.categories));
         localStorage.setItem('categoriesID', this.categories.id);
-        this.addCategory(this.categoryContainerAdd, ct);
+        this.addToDOM.addCategory(this.categoryContainerAdd, ct);
         e.target[0].value = "";
       } else {
         alert('Podaj wartość')
@@ -88,75 +90,13 @@ class Todo {
     this.categoryContainerAdd.textContent = "";
     this.categoryContainerSearch.textContent = "";
     for (let i = 0; i < this.categories.categories.length; i++) {
-      this.addCategory(this.categoryContainerAdd, this.categories.categories[i]);
-      this.addCategory(this.categoryContainerSearch, this.categories.categories[i]);
+      this.addToDOM.addCategory(this.categoryContainerAdd, this.categories.categories[i]);
+      this.addToDOM.addCategory(this.categoryContainerSearch, this.categories.categories[i]);
     }
     this.tasksConatiner.textContent = "";
     this.tasksConatinerSearch.textContent = "";
     for (let i = 0; i < this.tasks.tasks.length; i++) {
-      this.addTask(this.tasksConatiner, this.tasks.tasks[i]);
-    }
-  }
-  addTask(tasksConatiner, task) {
-    const category = this.categories.searchById(task.category)
-    const div = document.createElement('div');
-    div.className = task.complete ? "c-task is-active" : "c-task";
-    div.dataset.key = task.id
-    div.innerHTML = `<button class="c-task__btn o-btn o-btn--red" data-type="remove" data-key=${task.id}><span class="fas fa-trash"></span></button><div class="c-task__name" title="${task.name}">${task.name}<span class="c-task__cat-name" title="${category}">${category}</span></div><button class="c-task__btn o-btn o-btn--lightBlack" data-type="complete" data-key=${task.id}><span class="fas fa-check"></span></button>`;
-    tasksConatiner.appendChild(div);
-    div.querySelector('button[data-type=remove]').addEventListener('click', this.deleteTask.bind(this, tasksConatiner));
-    div.querySelector('button[data-type=complete]').addEventListener('click', this.completeTask.bind(this, tasksConatiner));
-  }
-  searchTask(name, category, conatiner) {
-    let tempArray = Searching.searchByPartName(this.tasks.tasks, name);
-    if (category !== "all") {
-      tempArray = Searching.searchByCategory(tempArray, category);
-    }
-    for (let i = 0; i < tempArray.length; i++) {
-      this.addTask(conatiner, tempArray[i]);
-    }
-  }
-  deleteTask(tasksConatiner, e) {
-    const id = e.target.dataset.key ? e.target.dataset.key : e.target.parentNode.dataset.key;
-    this.tasks.deleteTask(id);
-    localStorage.setItem('tasksArray', JSON.stringify(this.tasks.tasks));
-    localStorage.setItem('tasksID', this.tasks.id);
-    tasksConatiner.removeChild(tasksConatiner.querySelector(`.c-task[data-key="${id}"]`))
-  }
-  completeTask(tasksConatiner, e) {
-    const id = e.target.dataset.key ? e.target.dataset.key : e.target.parentNode.dataset.key;
-    this.tasks.completeTask(id);
-    localStorage.setItem('tasksArray', JSON.stringify(this.tasks.tasks));
-    localStorage.setItem('tasksID', this.tasks.id);
-    tasksConatiner.querySelector(`.c-task[data-key="${id}"]`).classList.toggle('is-active');
-  }
-  addCategory(container, ct) {
-    const div = document.createElement('div');
-    div.className = "c-choose-ct__category";
-    div.dataset.key = ct.id
-    div.innerHTML = `<button class="o-btn o-btn--text c-choose-ct__button">${ct.name}</button><button class="o-btn c-choose-ct__close-button" data-key="${ct.id}"><span class="fas fa-times"></span></button>`
-    container.prepend(div);
-    div.addEventListener('click', (e) => {
-      container.querySelectorAll('.c-choose-ct__category button.is-active').forEach(el => {
-        el.classList.remove('is-active');
-      });
-      e.target.classList.add('is-active');
-    })
-    div.addEventListener('dblclick', (e) => {
-      e.target.classList.remove('is-active');
-    })
-    div.querySelector('button.c-choose-ct__close-button').addEventListener('click', this.deleteCategory.bind(this, container));
-  }
-  deleteCategory(container, e) {
-    const id = e.target.dataset.key ? e.target.dataset.key : e.target.parentNode.dataset.key;
-    if (!Searching.searchByCategory(this.tasks.tasks, Number(id)).length > 0) {
-      this.categories.deleteCategory(id);
-      localStorage.setItem('categoriesArray', JSON.stringify(this.categories.categories));
-      localStorage.setItem('categoriesID', this.categories.id);
-      container.removeChild(container.querySelector(`.c-choose-ct__category[data-key="${id}"]`))
-      console.log("usuwanie kategorii nr: ", id)
-    }else{
-      alert('Uwaga są jeszcze zadania w tej kategorii');
+      this.addToDOM.addTask(this.tasksConatiner, this.tasks.tasks[i]);
     }
   }
 }
